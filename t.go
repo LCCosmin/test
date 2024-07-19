@@ -26,10 +26,11 @@ func TestGetServiceID(t *testing.T) {
 	}))
 	defer server.Close()
 
-	client := server.Client()
+	originalBaseURL := baseURL
+	defer func() { baseURL = originalBaseURL }()
 	baseURL = server.URL
 
-	serviceID, err := getServiceID(client, "your_service_name")
+	serviceID, err := getServiceID("your_service_name")
 	if err != nil {
 		t.Fatalf("Expected no error, got %v", err)
 	}
@@ -60,10 +61,11 @@ func TestGetTags(t *testing.T) {
 	}))
 	defer server.Close()
 
-	client := server.Client()
+	originalBaseURL := baseURL
+	defer func() { baseURL = originalBaseURL }()
 	baseURL = server.URL
 
-	tags, err := getTags(client, "1")
+	tags, err := getTags("1")
 	if err != nil {
 		t.Fatalf("Expected no error, got %v", err)
 	}
@@ -98,10 +100,11 @@ func TestGetOnCallOrManager(t *testing.T) {
 	}))
 	defer server.Close()
 
-	client := server.Client()
+	originalBaseURL := baseURL
+	defer func() { baseURL = originalBaseURL }()
 	baseURL = server.URL
 
-	name, err := getOnCallOrManager(client, "1")
+	name, err := getOnCallOrManager("1")
 	if err != nil {
 		t.Fatalf("Expected no error, got %v", err)
 	}
@@ -133,10 +136,7 @@ func TestGetOnCallOrManager(t *testing.T) {
 	}))
 	defer server.Close()
 
-	client = server.Client()
-	baseURL = server.URL
-
-	name, err = getOnCallOrManager(client, "1")
+	name, err = getOnCallOrManager("1")
 	if err != nil {
 		t.Fatalf("Expected no error, got %v", err)
 	}
